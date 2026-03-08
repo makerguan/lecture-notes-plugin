@@ -1,11 +1,10 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "lecture-notes-plugin",
+	"name": "Lecture Notes Plugin",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
+	"description": "这是一个快速启动听课笔记的插件，支持各学段、各学科，能灵活处理听课笔记的文件夹及笔记保存的位置。",
+	"author": "管雪沨",
 	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
 	"isDesktopOnly": false
 }
