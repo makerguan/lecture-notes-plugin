@@ -1,90 +1,589 @@
-# Obsidian Sample Plugin
+# Lecture Notes Plugin - 听课笔记插件
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+## 插件功能
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+这是一个专门用于创建听课笔记的 Obsidian 插件，特别适合教师听课记录使用。支持学段、学科选择，自定义模板文件和自动创建文件夹。**完美支持移动端**。
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open modal (simple)" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+### 主要特性
 
-## First time developing plugins?
+- 📚 点击侧边栏图标快速创建听课笔记
+- 🎓 **学段选择**：高中、初中、小学
+- 📖 **学科选择**：道德与法治、语文、数学、外语（英语）、历史、地理、科学、物理、化学、生物、信息科技、体育与健康、音乐、美术、劳动、综合实践活动、班队、其它
+- 📁 **自动创建文件夹**：支持在文件名格式中使用 `/` 创建多级文件夹（跨平台兼容）
+- 📝 **模板文件支持**：选择库中的任何笔记作为模板，支持变量
+- 🔄 **支持多种变量**：基础变量、日期变量、系统变量
+- ✨ 自动打开新创建的笔记
+- 📱 **移动端优化**：完美支持 iOS 和 Android，紧凑布局避免输入法遮挡
 
-Quick starting guide for new plugin devs:
+## 安装方法
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+### 手动安装
 
-## Releasing new releases
+1. 将以下文件复制到你的 Obsidian 库的插件目录：
+   ```
+   你的库/.obsidian/plugins/lecture-notes-plugin/
+   ├── main.js
+   ├── manifest.json
+   └── styles.css
+   ```
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+2. 重启 Obsidian
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+3. 进入 设置 → 第三方插件 → 启用 "Lecture Notes Plugin"
 
-## Adding your plugin to the community plugin list
+### 开发模式
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+1. 克隆或下载本项目到本地
 
-## How to use
+2. 在项目目录运行：
+   ```bash
+   npm install
+   npm run build
+   ```
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+3. 将生成的 `main.js`、`manifest.json`、`styles.css` 复制到插件目录
 
-## Manually installing the plugin
+## 使用方法
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+### 创建听课笔记
 
-## Improve code quality with eslint
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- This project already has eslint preconfigured, you can invoke a check by running`npm run lint`
-- Together with a custom eslint [plugin](https://github.com/obsidianmd/eslint-plugin) for Obsidan specific code guidelines.
-- A GitHub action is preconfigured to automatically lint every commit on all branches.
+#### 桌面端
 
-## Funding URL
+**方法一：** 点击左侧边栏的书本图标 📖
 
-You can include funding URLs where people who use your plugin can financially support it.
+**方法二：** 使用命令面板（Ctrl/Cmd + P），搜索以下命令：
+- `创建听课笔记` - 打开简洁对话框
+- `快速创建听课笔记（使用默认值）` - 使用设置中的默认值快速创建
+- `创建今日听课笔记` - 快速创建今日笔记
 
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
+**方法三：** 设置快捷键后直接使用快捷键
 
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+#### 移动端
+
+**方法一：使用命令面板**
+1. 向下滑动打开命令面板
+2. 搜索以下命令：
+   - `创建听课笔记` - 打开简洁对话框
+   - `快速创建听课笔记（使用默认值）` - 一键快速创建
+   - `创建今日听课笔记` - 快速创建今日笔记
+
+**方法二：使用快捷方式（推荐）**
+1. 在设置中配置默认值（学段、学科、讲师等）
+2. 使用"快速创建听课笔记"命令一键创建
+3. 无需填写表单，直接生成笔记
+
+### 填写课程信息
+
+点击创建后，会弹出简洁对话框要求填写：
+
+- **学段**（下拉选择：高中、初中、小学）
+- **学科**（下拉选择：18个学科）
+- **课程名称**（必填）
+- **讲师**
+
+**简化设计**：
+- 去掉了地点和日期输入，减少表单高度
+- 地点在模板中显示为空白，可手动填写
+- 日期自动使用当前日期
+- 添加了提示文本："💡 输入信息后按"回车"键创建"
+
+**移动端优化**：
+- **紧凑布局**：两列排列，减少高度，避免输入法遮挡
+  - 第一行：学段 + 学科
+  - 第二行：课程 + 讲师
+- 更大的字体和按钮，方便触摸操作
+- 垂直排列的按钮布局
+
+## 设置选项
+
+### 保存文件夹
+
+- 默认值：`听课笔记`
+- 说明：笔记文件的保存路径，支持使用 `/` 创建多级文件夹
+- **示例**：
+  - `听课笔记` → 所有笔记保存在听课笔记文件夹
+  - `{{year}}/{{subject}}` → 按年份和学科分类（如：2024/语文）
+  - `{{schoolStage}}/{{subject}}` → 按学段和学科分类（如：高中/数学）
+
+### 文件名格式
+
+- 默认值：`{{date}}-{{subject}}`
+- **支持在文件名中使用 `/` 创建文件夹**
+- 支持所有变量（见下方变量说明）
+
+**示例**：
+- `{{date}}-{{subject}}` → `2024-01-15-语文.md`
+- `{{subject}}/{{date}}` → 创建 `语文` 文件夹，文件名为 `2024-01-15.md`
+- `{{year}}/{{subject}}/{{date}}` → 创建 `2024/语文` 文件夹，文件名为 `2024-01-15.md`
+
+### 模板文件
+
+- 默认值：空（使用内置默认模板）
+- 说明：选择库中的任何 Markdown 文件作为模板
+- **支持所有变量**：模板文件中的变量会在创建笔记时自动替换
+- **选择方式**：
+  1. 手动输入文件路径（如：`模板/听课笔记模板.md`）
+  2. 点击"浏览"按钮，从库中选择文件
+
+**模板文件示例**：
+```markdown
+# {{course}} - {{date}}
+
+**学段：** {{schoolStage}}  
+**学科：** {{subject}}  
+**讲师：** {{teacher}}  
+**时间：** {{date}}  
+**地点：** 
+
+---
+
+## 📚 课程概述
+
+
+## 📝 主要内容
+
+
+## 💡 重点与难点
+
+
+## 🤔 思考与疑问
+
+
+## 💭 个人总结
+
 ```
 
-If you have multiple URLs, you can also do:
+### 默认学段
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
+预设的学段，创建时会自动选中（移动端快速创建时使用）
+
+### 默认学科
+
+预设的学科，创建时会自动选中（移动端快速创建时使用）
+
+### 默认课程名称
+
+预设的课程名称，创建时会自动填充
+
+### 默认讲师
+
+预设的讲师姓名，创建时会自动填充
+
+### 创建后打开
+
+- 默认值：开启
+- 说明：创建笔记后自动在编辑器中打开
+
+## 变量说明
+
+### 基础变量
+
+| 变量 | 说明 | 示例 |
+|------|------|------|
+| `{{course}}` | 课程名称 | 古诗词鉴赏 |
+| `{{teacher}}` | 讲师 | 张老师 |
+| `{{schoolStage}}` | 学段 | 高中 |
+| `{{subject}}` | 学科 | 语文 |
+
+### 日期变量
+
+| 变量 | 说明 | 示例 |
+|------|------|------|
+| `{{date}}` | 日期 | 2024-01-15 |
+| `{{year}}` | 年份 | 2024 |
+| `{{month}}` | 月份 | 01 |
+| `{{day}}` | 日期 | 15 |
+| `{{weekday}}` | 星期几（完整） | Monday |
+| `{{weekdayShort}}` | 星期几（简写） | Mon |
+| `{{week}}` | 年中第几周 | 03 |
+| `{{quarter}}` | 季度 | 1 |
+
+### 系统变量
+
+| 变量 | 说明 | 示例 |
+|------|------|------|
+| `{{timestamp}}` | Unix 时间戳 | 1705312800 |
+| `{{datetime}}` | 完整日期时间 | 2024-01-15-143025 |
+| `{{time}}` | 时间 | 143025 |
+
+### 特殊变量
+
+| 变量 | 说明 | 示例 |
+|------|------|------|
+| `{{location}}` | 地点 | 空白（需手动填写） |
+
+## 移动端使用指南
+
+### 快速创建流程
+
+1. **配置默认值**（首次使用）
+   - 进入设置 → 第三方插件 → Lecture Notes Plugin
+   - 设置默认学段、学科、讲师
+   - 配置文件夹和文件名格式
+   - 选择模板文件（可选）
+
+2. **快速创建**
+   - 向下滑动打开命令面板
+   - 搜索"快速创建听课笔记"
+   - 一键创建，无需填写表单
+
+3. **完整创建**
+   - 使用"创建听课笔记"命令
+   - 填写详细信息（仅 4 个字段）
+   - 移动端优化的紧凑布局
+
+### 移动端优化特性
+
+- ✅ **紧凑布局**：两列排列，减少高度，避免输入法遮挡
+  - 第一行：学段 + 学科
+  - 第二行：课程 + 讲师
+- ✅ **简化表单**：去掉地点和日期，减少输入
+- ✅ **触摸友好**：更大的按钮和输入框
+- ✅ **快速命令**：支持一键快速创建
+- ✅ **自动保存**：自动创建所需文件夹
+- ✅ **跨平台同步**：桌面端和移动端数据同步
+
+### 移动端快捷方式设置
+
+为常用命令设置快捷方式：
+
+1. 进入设置 → 快捷键
+2. 搜索"听课笔记"
+3. 为以下命令设置快捷方式：
+   - `Lecture Notes Plugin: 快速创建听课笔记（使用默认值）`
+   - `Lecture Notes Plugin: 创建今日听课笔记`
+
+## 文件夹自动创建功能
+
+插件支持在**保存文件夹**和**文件名格式**中使用 `/` 来创建多级文件夹，兼容 Windows、macOS 和移动端。
+
+### 使用示例
+
+#### 示例 1：在保存文件夹中使用 `/`
+
+**设置**：
+- 保存文件夹：`{{year}}/{{subject}}`
+- 文件名格式：`{{date}}-{{course}}`
+
+**结果**：
+```
+听课笔记/
+├── 2024/
+│   ├── 语文/
+│   │   └── 2024-01-15-古诗词鉴赏.md
+│   └── 数学/
+│       └── 2024-01-16-函数的应用.md
 ```
 
-## API Documentation
+#### 示例 2：在文件名格式中使用 `/`
 
-See https://docs.obsidian.md
+**设置**：
+- 保存文件夹：`听课笔记`
+- 文件名格式：`{{subject}}/{{date}}`
+
+**结果**：
+```
+听课笔记/
+├── 语文/
+│   └── 2024-01-15.md
+└── 数学/
+    └── 2024-01-16.md
+```
+
+#### 示例 3：组合使用
+
+**设置**：
+- 保存文件夹：`{{schoolStage}}`
+- 文件名格式：`{{subject}}/{{year}}-{{month}}/{{day}}`
+
+**结果**：
+```
+听课笔记/
+└── 高中/
+    ├── 语文/
+    │   └── 2024-01/
+    │       └── 15.md
+    └── 数学/
+        └── 2024-01/
+            └── 16.md
+```
+
+### 跨平台兼容性
+
+插件会自动处理不同操作系统的路径分隔符：
+
+- **Windows**：自动处理路径分隔符
+- **macOS**：使用标准路径格式
+- **移动端**：兼容 iOS 和 Android
+
+文件名中的特殊字符（如 `\ : * ? " < > |`）会被自动替换为 `-`，确保文件名在所有平台上都有效。
+
+**注意**：`/` 在文件名格式中会被识别为文件夹分隔符，不会被替换。
+
+## 模板文件功能
+
+### 如何使用模板文件
+
+1. **创建模板文件**
+   - 在库中创建一个 Markdown 文件（如：`模板/听课笔记模板.md`）
+   - 在文件中使用变量（如：`{{course}}`、`{{date}}` 等）
+
+2. **选择模板文件**
+   - 进入设置 → 第三方插件 → Lecture Notes Plugin
+   - 在"模板文件"设置中：
+     - 手动输入文件路径，或
+     - 点击"浏览"按钮从库中选择文件
+
+3. **创建笔记**
+   - 插件会读取模板文件内容
+   - 自动替换所有变量
+   - 生成最终的听课笔记
+
+### 模板文件的优势
+
+- ✅ **支持所有变量**：模板文件中的变量会自动替换
+- ✅ **灵活定制**：可以随时修改模板文件
+- ✅ **版本控制**：模板文件可以同步到所有设备
+- ✅ **多个模板**：可以创建多个模板文件，随时切换
+
+### 模板文件示例
+
+#### 简洁模板
+
+```markdown
+# {{course}}
+
+学段：{{schoolStage}} | 学科：{{subject}} | 讲师：{{teacher}} | 日期：{{date}}
+
+## 笔记内容
+
+
+## 重点
+
+
+## 疑问
+
+```
+
+#### 详细模板
+
+```markdown
+# {{course}} - {{date}} ({{weekday}})
+
+> 创建时间：{{datetime}}
+
+## 📋 基本信息
+
+- **学段：** {{schoolStage}}
+- **学科：** {{subject}}
+- **课程名称：** {{course}}
+- **讲师：** {{teacher}}
+- **日期：** {{date}}
+- **地点：** 
+- **第 {{week}} 周**
+
+## 🎯 听课目标
+
+- [ ] 目标1
+- [ ] 目标2
+- [ ] 目标3
+
+## 📚 教学过程
+
+### 导入环节
+
+
+### 新课讲授
+
+
+### 练习巩固
+
+
+### 课堂小结
+
+
+## 💡 教学亮点
+
+### 教学方法
+
+
+### 教学手段
+
+
+### 师生互动
+
+
+## 🤔 思考与建议
+
+### 优点
+
+
+### 建议
+
+
+## 📖 教学资源
+
+
+## ✅ 后续跟进
+
+- [ ] 整理笔记
+- [ ] 实践应用
+- [ ] 反思总结
+
+## 💭 个人感悟
+
+---
+*笔记ID: {{timestamp}}*
+```
+
+## 开发与构建
+
+### 开发环境
+
+```bash
+# 安装依赖
+npm install
+
+# 开发模式（自动重新编译）
+npm run dev
+
+# 生产构建
+npm run build
+
+# 代码检查
+npm run lint
+```
+
+### 项目结构
+
+```
+obsidian-sample-plugin/
+├── src/
+│   ├── main.ts          # 插件主入口
+│   └── settings.ts      # 设置面板
+├── manifest.json        # 插件清单
+├── styles.css           # 样式文件
+├── package.json         # 项目配置
+└── tsconfig.json        # TypeScript 配置
+```
+
+## 常见问题
+
+### Q: 插件没有显示在插件列表中？
+
+A: 检查以下几点：
+1. 确认文件已正确复制到 `.obsidian/plugins/lecture-notes-plugin/` 目录
+2. 确认 `manifest.json` 格式正确
+3. 重启 Obsidian
+
+### Q: 点击图标没有反应？
+
+A: 
+1. 打开开发者控制台（Ctrl/Cmd + Shift + I）查看错误信息
+2. 确认插件已正确启用
+3. 检查文件夹权限
+
+### Q: 如何修改模板？
+
+A: 
+- **方法一**：修改模板文件（如果设置了模板文件路径）
+- **方法二**：在设置中更改模板文件路径
+- **方法三**：清空模板文件路径，使用默认模板
+
+### Q: 模板文件支持变量吗？
+
+A: 是的！模板文件完全支持所有变量，变量会在创建笔记时自动替换。
+
+### Q: 文件名中出现特殊字符怎么办？
+
+A: 插件会自动将文件名中的特殊字符（如 `\ : * ? " < > |`）替换为 `-`
+
+### Q: 如何按学科分类保存笔记？
+
+A: 在设置中将"保存文件夹"设置为 `{{subject}}` 或 `{{year}}/{{subject}}`，插件会自动创建对应的文件夹结构
+
+### Q: 如何在文件名中创建文件夹？
+
+A: 在"文件名格式"中使用 `/`，例如：`{{subject}}/{{date}}` 会创建学科文件夹
+
+### Q: 支持哪些学科？
+
+A: 目前支持 18 个学科：道德与法治、语文、数学、外语（英语）、历史、地理、科学、物理、化学、生物、信息科技、体育与健康、音乐、美术、劳动、综合实践活动、班队、其它
+
+### Q: 系统变量有什么用？
+
+A: 系统变量可以用于：
+- `{{timestamp}}` - 创建唯一的文件标识
+- `{{datetime}}` - 记录精确的创建时间
+- `{{time}}` - 用于区分同一天的不同笔记
+
+### Q: 移动端如何快速创建笔记？
+
+A: 
+1. 在设置中配置默认值（学段、学科、讲师）
+2. 使用"快速创建听课笔记（使用默认值）"命令
+3. 一键创建，无需填写表单
+
+### Q: 移动端输入法遮挡怎么办？
+
+A: 插件已优化移动端布局：
+- 采用两列紧凑布局，减少高度
+- 第一行：学段 + 学科
+- 第二行：课程 + 讲师
+- 去掉了地点和日期输入
+- 避免输入法遮挡重要信息
+
+### Q: 移动端支持哪些功能？
+
+A: 移动端支持所有桌面端功能：
+- 创建听课笔记（简洁表单）
+- 快速创建听课笔记（使用默认值）
+- 创建今日听课笔记
+- 自动创建文件夹
+- 模板文件支持
+- 自定义变量
+
+### Q: 地点和日期在哪里填写？
+
+A: 
+- **地点**：在模板中显示为空白，创建笔记后手动填写
+- **日期**：自动使用当前日期，无需手动输入
+
+## 技术栈
+
+- TypeScript
+- Obsidian API
+- Moment.js
+- Esbuild
+- Platform API（移动端支持）
+
+## 许可证
+
+MIT License
+
+## 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 更新日志
+
+### v1.0.0 (2024-01-15)
+
+- ✨ 初始版本发布
+- ✅ 创建听课笔记功能
+- ✅ 学段和学科选择（高中/初中/小学，18个学科）
+- ✅ 自定义课程信息输入
+- ✅ 自动创建多级文件夹（跨平台兼容）
+- ✅ **支持在文件名格式中使用 `/` 创建文件夹**
+- ✅ **模板文件支持**（选择库中的任何笔记作为模板）
+- ✅ **模板文件支持所有变量**
+- ✅ **新增系统变量**（timestamp, datetime, time, week, quarter, weekdayShort）
+- ✅ **新增日期变量**（week, quarter, weekdayShort）
+- ✅ 文件名自动格式化
+- ✅ **移动端完美支持**
+- ✅ **新增快速创建命令**（使用默认值）
+- ✅ **新增今日听课笔记命令**
+- ✅ **移动端界面优化**（更大的字体和按钮）
+- ✅ **移动端紧凑布局**（两列排列，避免输入法遮挡）
+- ✅ **简化对话框**（去掉地点和日期输入，添加提示文本）
+- ✅ **模板文件浏览器**（支持从库中选择文件）
